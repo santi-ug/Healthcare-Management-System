@@ -12,3 +12,32 @@ datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
+
+model users {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  fullname      String
+  document_type DocumentType @default(CC)
+  document      String
+  email         String       @unique
+  status        Status       @default(Active)
+  role          Role         @default(Guest)
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+enum DocumentType {
+  CC
+  CE
+  Pasaporte
+}
+
+enum Status {
+  Active
+  Inactive
+}
+
+enum Role {
+  Admin
+  Employee
+  Guest
+}
